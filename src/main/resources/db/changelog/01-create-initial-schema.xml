@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd"
+	logicalFilePath="/changelog/01-create-initial-schema.xml">
+
+	<changeSet id="create.article" author="demo">
+	
+		<createTable tableName="articles">
+			<column name="article_id" type="int(5)" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="title" type="varchar(200)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="category" type="varchar(100)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+	</changeSet>
+		
+	<changeSet id="create.user" author="demo">
+		
+		<createTable tableName="users">
+			<column name="username" type="varchar(50)">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="password" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="first_name" type="varchar(100)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="last_name" type="varchar(100)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="enabled" type="boolean">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<createTable tableName="user_role">
+			<column name="username" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="role_" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		
+		<addForeignKeyConstraint constraintName="fk_user_role_users" referencedTableName="users" baseColumnNames="username" baseTableName="user_role" referencedColumnNames="username"/>
+		<addPrimaryKey tableName="user_role" columnNames="username,role_"/>
+		
+		<sql>
+			insert into users (username, password, first_name, last_name, enabled) values ('SuperUser', 'root', 'SuperUser', 'SuperUser', true);
+			insert into user_role (username, role_) values ('SuperUser', 'USER');
+			insert into user_role (username, role_) values ('SuperUser', 'ADMIN');
+		</sql>
+	</changeSet>
+</databaseChangeLog>
