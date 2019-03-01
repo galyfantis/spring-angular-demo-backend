@@ -2,7 +2,7 @@ version: '3'
 
 services:
   derby-database:
-    image: derby-db-service:0.0.1-SNAPSHOT
+    image: derby-db-service:0.0.2-SNAPSHOT
     volumes: 
       - derby-data:/database
     networks:
@@ -12,7 +12,7 @@ services:
     container_name: derby-db-container
     restart: always
   spring-backend:
-    image: spring-boot-demo:0.0.1-SNAPSHOT
+    image: spring-boot-demo:0.0.2-SNAPSHOT
     networks:
       - appnet
     ports:
