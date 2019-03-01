@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  derby-database:
+    image: derby-db-service:0.0.1-SNAPSHOT
+    volumes: 
+      - derby-data:/database
+    networks:
+      - appnet
+    ports:
+      - "9999:1527"
+    container_name: derby-db-container
+    restart: always
+  spring-backend:
+    image: spring-boot-demo:0.0.1-SNAPSHOT
+    networks:
+      - appnet
+    ports:
+      - "8099:8080"
+    container_name: spring-backend-container
+    restart: always
+    environment:
+      - JAVA_OPTS=-Dapp.derby.host=derby-db-container:1527
+    depends_on:
+      - derby-database
+
+networks:
+  appnet: 
+
+volumes: 
+  derby-data: 
